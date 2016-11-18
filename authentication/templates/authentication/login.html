@@ -1,6 +1,6 @@
 {% load bootstrap_forms %}
 <form action="{% url 'login' %}" method="POST">
   {% csrf_token %}
-  {{ form|as_bootstrap }}
+  {{ form }}
   <input class="btn btn-primary form-control" type="submit" value="Login"/>
 </form>
