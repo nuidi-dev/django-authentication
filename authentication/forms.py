@@ -7,6 +7,12 @@ from .models import Account
 from django.utils.translation import ugettext as _
 from captcha.fields import ReCaptchaField
 
+class LoginForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+    class Meta:
+        model = Account
+        fields = ("email", "password")
+
 class UserCreateForm(UserCreationForm):
 
     captcha = ReCaptchaField()

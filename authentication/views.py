@@ -1,16 +1,38 @@
 from django.shortcuts import render
 from django.shortcuts import reverse
 from django.http import HttpResponseRedirect
-from authentication.forms import UserCreateForm
-
 from django.core.mail import EmailMultiAlternatives
 from django.template import Context
 from django.template.loader import get_template
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
+from django.contrib.auth import logout
 
 from .models import Account
+from .forms import UserCreateForm
+from .forms import LoginForm
+
+def login_view(request):
+    if request.POST:
+        email = request.POST.get('email', '')
+        password = request.POST.get('password', '')
+        user = authenticate(email=email, password=password)
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect(reverse('login-success'))
+        else:
+            return HttpResponseRedirect(reverse('login-failed'))
+
+    form = LoginForm()
+    return render(request, 'authentication/login.html', {'form': form})
+
+def login_success(request):
+    return render(request, 'authentication/login-success.html')
+
+def login_failed(request):
+    return render(request, 'authentication/login-failed.html')
 
 def account_register_confirm(request, user_id, uuid):
-
     try:
         acc = Account.objects.get(pk=user_id, activation_key=uuid)
         if acc.is_active:
