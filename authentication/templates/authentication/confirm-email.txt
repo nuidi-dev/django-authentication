@@ -1,0 +1,1 @@
+To verify your account please visit this link {{ confirm_link }}.

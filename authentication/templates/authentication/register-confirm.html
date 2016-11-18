@@ -1,0 +1,10 @@
+{% if msg == 'success' %}
+  <h1>Congratulations!</h1>
+  Your account has been activated. Now you can log in.
+{% elif msg == 'already_activated' %}
+  <h1>Already activated</h1>
+  Your account has already been activated.
+{% elif msg == 'failed' %}
+  <h1>Sorry!</h1>
+  Something went wrong!
+{% endif %}
