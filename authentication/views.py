@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import reverse
+from django.shortcuts import redirect
 from django.http import HttpResponseRedirect
 from django.core.mail import EmailMultiAlternatives
 from django.template import Context
@@ -8,11 +9,20 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout
 
+
 from .models import Account
 from .forms import UserCreateForm
 from .forms import LoginForm
 
+def logout_view(request):
+    logout(request)
+    return redirect('/')
+
 def login_view(request):
+
+    form = LoginForm()
+    context = {'form': form}
+
     if request.POST:
         email = request.POST.get('email', '')
         password = request.POST.get('password', '')
@@ -21,10 +31,9 @@ def login_view(request):
             login(request, user)
             return HttpResponseRedirect(reverse('login-success'))
         else:
-            return HttpResponseRedirect(reverse('login-failed'))
+            context['fail'] = 'Login failed'
 
-    form = LoginForm()
-    return render(request, 'authentication/login.html', {'form': form})
+    return render(request, 'authentication/login.html', context)
 
 def login_success(request):
     return render(request, 'authentication/login-success.html')

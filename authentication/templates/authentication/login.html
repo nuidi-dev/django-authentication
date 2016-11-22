@@ -2,5 +2,8 @@
 <form action="{% url 'login' %}" method="POST">
   {% csrf_token %}
   {{ form }}
-  <input class="btn btn-primary form-control" type="submit" value="Login"/>
+  <input type="submit" value="Login"/>
 </form>
+{% if fail %}
+  {{ fail }}
+{% endif %}
