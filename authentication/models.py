@@ -32,8 +32,8 @@ class Account(PermissionsMixin, AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
 
-    activation_key = models.UUIDField(default=uuid.uuid4)
-    activation_expires = models.DateTimeField(null=True)
+    key = models.UUIDField(default=uuid.uuid4)
+    keytime = models.DateTimeField(null=True)
 
     objects = AccountManager()
 
@@ -45,6 +45,11 @@ class Account(PermissionsMixin, AbstractBaseUser):
 
     def get_short_name(self):
         return self.username
+
+    def set_new_key(self):
+        self.key = uuid.uuid()
+        self.save()
+        return self.key
 
     def __unicode__(self):
         return self.username
