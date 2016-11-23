@@ -13,6 +13,12 @@ class LoginForm(forms.ModelForm):
         model = Account
         fields = ("email", "password")
 
+class PasswordChangeForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+    class Meta:
+        model = Account
+        fields = ("password",)
+
 class UserCreateForm(UserCreationForm):
 
     captcha = ReCaptchaField()

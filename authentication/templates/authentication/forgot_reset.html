@@ -1,0 +1,12 @@
+{% if account %}
+  {% if msg %}
+    {{ msg }}
+  {% endif %}
+  <form action="{% url 'account-forgot-reset' 0 0 %}" method="POST">
+    {% csrf_token %}
+    <input type="password" name="new_password" placeholder="Your new password">
+    <input type="submit" value="Change password">
+    <input type="hidden" name="user_id" value="{{ account.id }}">
+    <input type="hidden" name="key" value="{{ account.key }}">
+  </form>
+{% endif %}
