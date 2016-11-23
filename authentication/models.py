@@ -2,6 +2,7 @@
 
 from __future__ import unicode_literals
 import uuid
+from datetime import datetime
 from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.base_user import BaseUserManager
@@ -32,8 +33,8 @@ class Account(PermissionsMixin, AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
 
-    key = models.UUIDField(default=uuid.uuid4)
-    keytime = models.DateTimeField(null=True)
+    key = models.UUIDField(default=uuid.uuid4, null=True, blank=True)
+    keytime = models.DateTimeField(auto_now_add=True, null=True)
 
     objects = AccountManager()
 
@@ -46,8 +47,13 @@ class Account(PermissionsMixin, AbstractBaseUser):
     def get_short_name(self):
         return self.username
 
+    def reset_keytime(self):
+        self.keytime = datetime.now()
+        self.save()
+        return self.keytime
+
     def set_new_key(self):
-        self.key = uuid.uuid()
+        self.key = uuid.uuid4()
         self.save()
         return self.key
 

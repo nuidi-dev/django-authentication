@@ -1,0 +1,9 @@
+Please enter email address to reset your password.
+<form action="{% url 'account-forgot' %}" method="POST">
+  {% csrf_token %}
+  <input type="text" name="email">
+  <input type="submit" value="Send reset link">
+</form>
+{% if not_active %}
+  Account isn't active yet. Activate it first with link sent on your e-mail.
+{% endif %}
