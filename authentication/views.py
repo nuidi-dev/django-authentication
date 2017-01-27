@@ -82,7 +82,7 @@ def account_register(request):
 
             return HttpResponseRedirect(reverse('account-register-success'))
     else:
-        form = UserCreateForm()(widget=forms.PasswordInput())
+        form = UserCreateForm()
 
     return render(request, 'authentication/register.html', {'form': form})
 
